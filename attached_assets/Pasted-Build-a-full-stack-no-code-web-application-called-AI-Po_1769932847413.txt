@@ -1,0 +1,201 @@
+Build a full-stack no-code web application called
+“AI-Powered Mock Interview Platform”.
+
+PURPOSE:
+The platform must simulate a real-world technical interview using an AI interviewer.
+This is NOT a chatbot. It is a performance evaluation system.
+
+The system must analyze a candidate’s resume and job description, conduct an adaptive interview under time pressure, objectively score responses, and generate an interview readiness report.
+
+TARGET USERS:
+Students and early-career professionals applying for technical roles.
+
+--------------------------------------------------
+CORE PAGES TO BUILD
+--------------------------------------------------
+
+1. START INTERVIEW PAGE
+- Resume upload (PDF)
+- Job Description input (long text)
+- Button: “Start Interview”
+
+On click:
+- Extract resume text
+- Store JD text
+- Initialize interview session
+
+--------------------------------------------------
+
+2. INTERVIEW PAGE
+- Display current interview question
+- Countdown timer (visible)
+- Large answer input box
+- Button: “Submit Answer”
+
+The interview must feel strict and professional.
+No hints or guidance should be shown.
+
+--------------------------------------------------
+
+3. FINAL REPORT PAGE
+- Final Interview Readiness Score (0–100)
+- Readiness category (Strong / Average / Needs Improvement)
+- Skill-wise performance breakdown
+- Strengths
+- Weaknesses
+- Actionable feedback
+- Hiring readiness indicator for the given JD
+
+--------------------------------------------------
+INTERVIEW LOGIC (MANDATORY)
+--------------------------------------------------
+
+This application must behave like a real interviewer.
+
+Maintain the following state variables:
+- current_difficulty (Easy / Medium / Hard)
+- question_count
+- total_score
+- consecutive_low_scores
+- time_exceeded_flag
+
+Initialize:
+- current_difficulty = Easy
+- question_count = 0
+- total_score = 0
+- consecutive_low_scores = 0
+
+--------------------------------------------------
+RESUME & JD ANALYSIS (AI TASK)
+--------------------------------------------------
+
+Analyze the uploaded resume and job description to extract:
+- Explicit technical skills
+- Experience level (Fresher / Junior / Mid / Senior)
+- Project or domain exposure
+- Resume–JD alignment score (0–100)
+
+Use JD as ground truth.
+Do not assume missing skills.
+
+--------------------------------------------------
+QUESTION GENERATION (AI INTERVIEWER)
+--------------------------------------------------
+
+Generate exactly ONE interview question at a time.
+
+Inputs:
+- Candidate skills
+- Job description
+- Current difficulty level
+
+Rules:
+- Questions must be relevant to the JD
+- Difficulty must strictly match the level
+- No repeated questions
+- No explanations or hints
+
+Difficulty rules:
+Easy:
+- Definitions and basic concepts
+
+Medium:
+- Application-based questions
+- Reasoning and trade-offs
+
+Hard:
+- Edge cases
+- System-level thinking
+- Real-world scenarios
+
+--------------------------------------------------
+TIME PRESSURE RULES
+--------------------------------------------------
+
+Apply strict time limits:
+- Easy: 60 seconds
+- Medium: 90 seconds
+- Hard: 120 seconds
+
+If time exceeds:
+- Mark time_exceeded_flag = true
+- Apply penalty during evaluation
+
+--------------------------------------------------
+ANSWER EVALUATION (OBJECTIVE SCORING)
+--------------------------------------------------
+
+Evaluate each answer objectively using these criteria:
+- Accuracy (0–30)
+- Clarity (0–20)
+- Depth (0–20)
+- Relevance (0–20)
+- Time Efficiency (0–10)
+
+Rules:
+- Penalize vague or generic answers
+- Penalize incorrect technical claims
+- Penalize time overruns
+- No encouragement or praise
+
+Each answer must produce a final_score (0–100).
+
+--------------------------------------------------
+ADAPTIVE DIFFICULTY LOGIC
+--------------------------------------------------
+
+After each answer:
+- If final_score ≥ 75 → increase difficulty
+- If 50 ≤ final_score < 75 → keep same difficulty
+- If final_score < 50 → reduce difficulty
+
+--------------------------------------------------
+EARLY INTERVIEW TERMINATION
+--------------------------------------------------
+
+Terminate the interview early if:
+- 3 consecutive answers score below 40
+OR
+- Average score is below 45 after at least 5 questions
+
+If terminated:
+- End interview immediately
+- Navigate to Final Report page
+- Display termination reason
+
+--------------------------------------------------
+FINAL INTERVIEW READINESS SCORE
+--------------------------------------------------
+
+Calculate final readiness score (0–100) using:
+- Average answer score
+- Resume–JD alignment score
+- Time efficiency
+- Adaptability across difficulty levels
+
+Classify:
+- 75–100 → Strong
+- 50–74 → Average
+- Below 50 → Needs Improvement
+
+--------------------------------------------------
+GLOBAL RULES
+--------------------------------------------------
+
+- The AI must behave like a strict interviewer, not a tutor
+- Do NOT provide hints, solutions, or coaching
+- Outputs must be concise and structured
+- JSON outputs must always be valid when used
+- The experience must simulate real interview pressure
+
+--------------------------------------------------
+DELIVERABLE EXPECTATION
+--------------------------------------------------
+
+The final app must:
+- Work end-to-end
+- Feel like a real interview
+- Objectively evaluate performance
+- Clearly indicate hiring readiness
+
+This is a real-world interview simulation system, not a learning assistant.
